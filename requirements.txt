@@ -1,9 +1,10 @@
 Flask==3.0.3
 supabase==2.7.4
 python-dotenv==1.0.1
-torch
-torchvision
-Pillow
-numpy
-requests
-tqdm
+torch==2.2.2
+torchvision==0.17.2
+Pillow==10.2.0
+numpy==1.26.4
+requests==2.31.0
+tqdm==4.66.4
+facenet-pytorch==2.6.0
