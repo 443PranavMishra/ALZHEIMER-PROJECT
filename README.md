@@ -201,6 +201,8 @@ Download `facenet_model.pt` from the link provided, and place it inside `Alzheim
 (create the `model` folder if it isn't already there — this file is too large to include in the
 main ZIP).
 
+MODEL LINK : https://www.kaggle.com/models/pranavmishra443/facenet-model
+
 **Step 3 — Open the project in VS Code**
 Open the `Alzheimer_Project` folder in VS Code (`File → Open Folder…`).
 
