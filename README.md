@@ -46,6 +46,8 @@ are either clinical (hospital-only, not for daily home use) or generic (not desi
 memory loss, safety, or cognitive decline) — leaving a real gap for a *daily-use,
 dignity-preserving digital companion* built specifically for this condition.
 
+---
+
 ## Our Solution
 
 Smriti is an all-in-one digital companion that keeps Alzheimer's patients safe and independent
@@ -55,6 +57,8 @@ watch over it all — remotely, in their own language.
 Unlike generic reminder apps or clinical-only tools, Smriti is the first platform to combine
 **identity, safety, cognition, and caregiver oversight** into one connected, multilingual system —
 built specifically around the realities of memory loss, not retrofitted onto them.
+
+---
 
 ## Key Features
 
@@ -82,6 +86,8 @@ built specifically around the realities of memory loss, not retrofitted onto the
     translation of the 100-question quiz bank — not just menu labels.
 12. **Light/Dark Theme** and a persistent live date/time display, with consistent color-coding
     (violet = cognitive, amber = daily care, coral = safety, green = places) for quick recognition.
+
+    ---
 
 ## What Makes This Different (USP)
 
@@ -123,6 +129,8 @@ Caretaker Dashboard (ongoing, parallel)
 Ask Smriti — AI support available anytime, in the patient's own language
 ```
 
+---
+
 ## Tech Stack
 
 **Frontend**
@@ -151,6 +159,8 @@ Ask Smriti — AI support available anytime, in the patient's own language
 - Google Maps — nearby hospital/pharmacy/police search
 - Browser APIs — WebRTC (camera), Geolocation, Web Speech API (voice input), LocalStorage (theme)
 
+---
+
 ## Project Structure
 
 ```
@@ -173,6 +183,8 @@ alzheimer_platform/
 ├── requirements-facenet.txt      facenet-pytorch, installed separately (see Setup, step 5)
 └── .env.example                  Template for your local .env file
 ```
+
+---
 
 ## Setup
 
@@ -217,6 +229,8 @@ version that conflicts with the one this project actually needs — everything i
 is already covered by `requirements.txt`.
 
 Open **http://127.0.0.1:5000**.
+
+---
 
 ## Deployment Note
 
