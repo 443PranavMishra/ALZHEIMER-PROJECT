@@ -12,6 +12,8 @@ needing to be physically present.
 Built with Flask + Supabase (Postgres & file storage) + a FaceNet model for face recognition, and
 a Gemini-powered AI assistant. Plain HTML/CSS/JS on the frontend — no build step, no framework.
 
+VIDEO LINK : https://youtu.be/5LMrTFpUo48
+
 ---
 
 ## Table of Contents
