@@ -28,7 +28,6 @@ a Gemini-powered AI assistant. Plain HTML/CSS/JS on the frontend — no build st
 - [Project Structure](#project-structure)
 - [Setup](#setup)
 - [Deployment Note](#deployment-note)
-- [Known Limitations](#known-limitations)
 - [Future Roadmap](#future-roadmap)
 
 ---
