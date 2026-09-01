@@ -231,19 +231,7 @@ are the right fit for this dependency footprint — **Render**, **Railway**, or 
 reasonable starting points, though all require a paid tier once you factor in the memory needed
 for PyTorch + the model file.
 
-## Known Limitations
-
-- **SMS alerts are logged but not sent** — no SMS provider (e.g. Twilio) is wired up; phone
-  numbers on the Emergency screen are still fully clickable to call directly.
-- **WhatsApp messages require one manual tap to send** — a WhatsApp anti-spam restriction, not
-  something the app can bypass.
-- **Reminders are client-side** — timetable/event alarms fire while the page is open in a browser
-  tab; there's no server-side push notification system yet.
-- The quiz question bank is fully translated into all 6 languages; the daily-games content
-  (`game_data.json`) is not yet fully translated — untranslated content falls back to English
-  automatically rather than breaking.
-- The face model file (`facenet_model.pt`, ~110MB) is large for a git repo — consider
-  [Git LFS](https://git-lfs.github.com/) if pushing it directly.
+---
 
 ## Future Roadmap
 
