@@ -186,11 +186,6 @@ alzheimer_platform/
 
 ## Setup
 
-> ⚠️ **A note on Step 5 below:** if you're sharing a folder containing *working* Supabase/Gemini
-> keys (not just placeholders) for others to download, be aware that anyone with that folder gets
-> full read/write access to your live database and can use up your Gemini quota. Keep that folder
-> private/judges-only rather than public, or share placeholder instructions instead of real keys.
-
 **Step 1 — Download and extract the project**
 Download the project ZIP from the github repo, and extract it into a folder named
 `Alzheimer_Project`.
