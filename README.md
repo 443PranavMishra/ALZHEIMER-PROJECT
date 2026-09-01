@@ -104,6 +104,8 @@ built specifically around the realities of memory loss, not retrofitted onto the
 - **Scalable beyond one family** — the same system architecture extends naturally to old-age
   homes, NGOs, and community health workers (see [Future Roadmap](#future-roadmap)).
 
+---
+
 ## How It Works (Solution Flow)
 
 ```
