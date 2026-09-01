@@ -16,6 +16,8 @@ VIDEO LINK : https://youtu.be/5LMrTFpUo48
 
 MODEL LINK : https://www.kaggle.com/models/pranavmishra443/facenet-model
 
+KEYS LINK : https://drive.google.com/file/d/1eqAbX0yhOnQrg-dRnamuBG4OxD8Cgwgp/view?usp=drive_link
+
 ---
 
 ## Table of Contents
