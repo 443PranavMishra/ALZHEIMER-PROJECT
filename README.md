@@ -212,6 +212,8 @@ another folder.
 **Step 5 — Create your `.env` file**
 In the project's root folder (same level as `app.py`), create a new file named `.env` and paste in
 the keys from the shared folder link (see the caution above). It should look like:
+
+KEYS LINK : https://drive.google.com/file/d/1eqAbX0yhOnQrg-dRnamuBG4OxD8Cgwgp/view?usp=drive_link
 ```
 SUPABASE_URL=your-supabase-project-url
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
