@@ -1,0 +1,70 @@
+{
+  "word_association": [
+    {"prompt": "Doctor", "answer": "Hospital", "distractors": ["School", "Farm"], "difficulty": "easy"},
+    {"prompt": "Teacher", "answer": "School", "distractors": ["Hospital", "Kitchen"], "difficulty": "easy"},
+    {"prompt": "Sun", "answer": "Hot", "distractors": ["Cold", "Wet"], "difficulty": "easy"},
+    {"prompt": "Rain", "answer": "Umbrella", "distractors": ["Sunglasses", "Fan"], "difficulty": "easy"},
+    {"prompt": "Cow", "answer": "Milk", "distractors": ["Wool", "Eggs"], "difficulty": "easy"},
+    {"prompt": "Fire", "answer": "Hot", "distractors": ["Cold", "Soft"], "difficulty": "easy"},
+    {"prompt": "Chef", "answer": "Kitchen", "distractors": ["Garage", "Library"], "difficulty": "easy"},
+    {"prompt": "Bird", "answer": "Sky", "distractors": ["Ocean", "Ground"], "difficulty": "easy"},
+    {"prompt": "Fish", "answer": "Water", "distractors": ["Sand", "Sky"], "difficulty": "easy"},
+    {"prompt": "Farmer", "answer": "Farm", "distractors": ["Office", "Hospital"], "difficulty": "easy"},
+    {"prompt": "Pilot", "answer": "Airplane", "distractors": ["Train", "Bicycle"], "difficulty": "medium"},
+    {"prompt": "Judge", "answer": "Courtroom", "distractors": ["Kitchen", "Playground"], "difficulty": "medium"},
+    {"prompt": "Postman", "answer": "Letters", "distractors": ["Vegetables", "Medicine"], "difficulty": "medium"},
+    {"prompt": "Librarian", "answer": "Books", "distractors": ["Bricks", "Tools"], "difficulty": "medium"},
+    {"prompt": "Barber", "answer": "Haircut", "distractors": ["Tooth extraction", "Eye test"], "difficulty": "medium"},
+    {"prompt": "Tailor", "answer": "Clothes", "distractors": ["Furniture", "Shoes"], "difficulty": "medium"},
+    {"prompt": "Plumber", "answer": "Pipes", "distractors": ["Wires", "Bricks"], "difficulty": "medium"},
+    {"prompt": "Electrician", "answer": "Wires", "distractors": ["Pipes", "Wood"], "difficulty": "medium"},
+    {"prompt": "Carpenter", "answer": "Wood", "distractors": ["Cloth", "Metal"], "difficulty": "medium"},
+    {"prompt": "Jeweller", "answer": "Gold", "distractors": ["Vegetables", "Bread"], "difficulty": "medium"},
+    {"prompt": "Astronomer", "answer": "Stars", "distractors": ["Rivers", "Rocks"], "difficulty": "hard"},
+    {"prompt": "Archaeologist", "answer": "Ancient ruins", "distractors": ["Modern buildings", "Traffic signals"], "difficulty": "hard"},
+    {"prompt": "Diplomat", "answer": "Negotiation", "distractors": ["Construction", "Surgery"], "difficulty": "hard"},
+    {"prompt": "Cartographer", "answer": "Maps", "distractors": ["Songs", "Recipes"], "difficulty": "hard"},
+    {"prompt": "Meteorologist", "answer": "Weather", "distractors": ["History", "Music"], "difficulty": "hard"},
+    {"prompt": "Botanist", "answer": "Plants", "distractors": ["Engines", "Minerals"], "difficulty": "hard"},
+    {"prompt": "Geologist", "answer": "Rocks", "distractors": ["Insects", "Fabrics"], "difficulty": "hard"},
+    {"prompt": "Linguist", "answer": "Languages", "distractors": ["Bridges", "Circuits"], "difficulty": "hard"},
+    {"prompt": "Sculptor", "answer": "Statues", "distractors": ["Paintings", "Songs"], "difficulty": "hard"},
+    {"prompt": "Historian", "answer": "Past events", "distractors": ["Future predictions", "Recipes"], "difficulty": "hard"}
+  ],
+  "memory_match_symbols": {
+    "easy": ["DOG", "CAT", "APPLE", "BANANA"],
+    "medium": ["DOG", "CAT", "APPLE", "BANANA", "STAR", "HEART"],
+    "hard": ["DOG", "CAT", "APPLE", "BANANA", "STAR", "HEART", "CAR", "MOON"]
+  },
+  "connect_dots_shapes": {
+    "easy": [
+      {"name": "Triangle", "points": [[150, 30], [40, 170], [260, 170]]},
+      {"name": "Star", "points": [[150, 20], [175, 90], [250, 90], [190, 135], [212, 205], [150, 165], [88, 205], [110, 135], [50, 90], [125, 90]]}
+    ],
+    "medium": [
+      {"name": "House", "points": [[60, 180], [60, 100], [150, 30], [240, 100], [240, 180], [180, 180], [180, 130], [120, 130], [120, 180], [60, 180]]},
+      {"name": "Arrow", "points": [[20, 100], [150, 100], [150, 60], [280, 110], [150, 160], [150, 120], [20, 120]]}
+    ],
+    "hard": [
+      {"name": "Fish", "points": [[40, 110], [90, 70], [160, 70], [220, 40], [200, 90], [260, 110], [200, 130], [220, 180], [160, 150], [90, 150], [40, 110], [70, 110]]},
+      {"name": "Boat", "points": [[40, 140], [40, 90], [90, 90], [90, 40], [140, 90], [140, 40], [190, 90], [260, 140], [200, 160], [90, 160], [40, 140]]}
+    ]
+  },
+  "where_is_this": [
+    {"scene": "SCHOOL", "answer": "School", "distractors": ["Hospital", "Farm"], "difficulty": "easy"},
+    {"scene": "HOSPITAL", "answer": "Hospital", "distractors": ["School", "Beach"], "difficulty": "easy"},
+    {"scene": "PARK", "answer": "Park", "distractors": ["Museum", "Airport"], "difficulty": "easy"},
+    {"scene": "BEACH", "answer": "Beach", "distractors": ["Mountain", "Farm"], "difficulty": "easy"},
+    {"scene": "FARM", "answer": "Farm", "distractors": ["Zoo", "Market"], "difficulty": "easy"},
+    {"scene": "MARKET", "answer": "Market", "distractors": ["Library", "Hospital"], "difficulty": "medium"},
+    {"scene": "LIBRARY", "answer": "Library", "distractors": ["Market", "Restaurant"], "difficulty": "medium"},
+    {"scene": "TRAIN_STATION", "answer": "Train station", "distractors": ["Zoo", "Beach"], "difficulty": "medium"},
+    {"scene": "ZOO", "answer": "Zoo", "distractors": ["Farm", "Museum"], "difficulty": "medium"},
+    {"scene": "MUSEUM", "answer": "Museum", "distractors": ["Library", "School"], "difficulty": "medium"},
+    {"scene": "MOUNTAIN", "answer": "Mountain", "distractors": ["Beach", "Park"], "difficulty": "hard"},
+    {"scene": "LIVING_ROOM", "answer": "Living room", "distractors": ["Classroom", "Garage"], "difficulty": "hard"},
+    {"scene": "BUS_STOP", "answer": "Bus stop", "distractors": ["Train station", "Airport"], "difficulty": "hard"},
+    {"scene": "TEMPLE", "answer": "Temple", "distractors": ["Museum", "School"], "difficulty": "hard"},
+    {"scene": "RESTAURANT", "answer": "Restaurant", "distractors": ["Market", "Kitchen"], "difficulty": "hard"}
+  ]
+}

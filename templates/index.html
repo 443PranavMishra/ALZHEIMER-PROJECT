@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smriti — memory care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Sora:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='tabler-icons.min.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="navbar__side navbar__side--left">
+      <div class="lang-switcher">
+        <button type="button" class="lang-switcher__btn" id="lang-switcher-btn" aria-haspopup="true"
+          aria-expanded="false">
+          <i class="ti ti-language" aria-hidden="true"></i>
+          <span id="lang-switcher-label">English</span>
+          <i class="ti ti-chevron-down" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-switcher__menu" id="lang-switcher-menu">
+          <li><button type="button" data-lang="en">English</button></li>
+          <li><button type="button" data-lang="hi">हिंदी (Hindi)</button></li>
+          <li><button type="button" data-lang="ta">தமிழ் (Tamil)</button></li>
+          <li><button type="button" data-lang="te">తెలుగు (Telugu)</button></li>
+          <li><button type="button" data-lang="as">অসমীয়া (Assamese)</button></li>
+          <li><button type="button" data-lang="mr">मराठी (Marathi)</button></li>
+        </ul>
+      </div>
+      <div class="navbar-clock" id="navbar-clock" aria-live="off">
+        <i class="ti ti-clock" aria-hidden="true"></i>
+        <span id="navbar-clock-text">--:--</span>
+      </div>
+      <!-- <button class="brand-mark" aria-label="Go to home" data-nav="landing">
+      <svg viewBox="0 0 40 40" width="26" height="26">
+        <circle cx="20" cy="20" r="3" class="node node--glow"></circle>
+        <circle cx="9" cy="12" r="2" class="node"></circle>
+        <circle cx="31" cy="14" r="2" class="node"></circle>
+        <circle cx="10" cy="29" r="2" class="node"></circle>
+        <circle cx="30" cy="28" r="2" class="node"></circle>
+        <line x1="20" y1="20" x2="9" y2="12" class="edge"></line>
+        <line x1="20" y1="20" x2="31" y2="14" class="edge"></line>
+        <line x1="20" y1="20" x2="10" y2="29" class="edge"></line>
+        <line x1="20" y1="20" x2="30" y2="28" class="edge"></line>
+      </svg>
+    </button> -->
+    </div>
+    <div class="navbar__center">
+      <button class="app-name" data-nav="landing" data-i18n="brand.smriti">Smriti</button>
+    </div>
+    <div class="navbar__side navbar__side--right">
+      <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch between light and dark theme">
+        <i class="ti ti-moon" id="theme-toggle-icon" aria-hidden="true"></i>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ============ LANDING VIEW ============ -->
+    <section id="view-landing" class="view is-active">
+      <div class="hero">
+        <div class="hero__text">
+          <p class="eyebrow" data-i18n="landing.eyebrow">A memory care companion</p>
+          <h1 class="hero__title"><span data-i18n="landing.title1">Some connections fade.</span><br><span
+              data-i18n="landing.title2">We help you hold on to them.</span></h1>
+          <p class="hero__sub" data-i18n="landing.sub">Smriti helps people living with Alzheimer's stay oriented, safe
+            and engaged &mdash;
+            and gives the people caring for them one clear place to keep watch, day to day.</p>
+          <div class="hero__actions">
+            <button class="btn btn--primary" data-nav="login">
+              <i class="ti ti-scan" aria-hidden="true"></i> <span data-i18n="landing.loginBtn">Log in with face
+                scan</span>
+            </button>
+            <button class="btn btn--ghost" data-nav="register" data-i18n="landing.registerBtn">Let's cure u —
+              register</button>
+          </div>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+          <svg viewBox="0 0 480 480" class="constellation">
+            <line x1="240" y1="240" x2="120" y2="130" class="edge edge--warm"></line>
+            <line x1="240" y1="240" x2="350" y2="150" class="edge edge--warm"></line>
+            <line x1="240" y1="240" x2="150" y2="340" class="edge edge--warm"></line>
+            <line x1="240" y1="240" x2="340" y2="330" class="edge edge--warm"></line>
+            <line x1="120" y1="130" x2="90" y2="230" class="edge edge--faint"></line>
+            <line x1="350" y1="150" x2="400" y2="250" class="edge edge--faint"></line>
+            <line x1="150" y1="340" x2="90" y2="230" class="edge edge--faint"></line>
+            <line x1="340" y1="330" x2="400" y2="250" class="edge edge--faint"></line>
+
+            <circle cx="90" cy="230" r="4" class="node node--faint"></circle>
+            <circle cx="400" cy="250" r="4" class="node node--faint"></circle>
+            <circle cx="60" cy="330" r="3" class="node node--faint"></circle>
+            <circle cx="420" cy="120" r="3" class="node node--faint"></circle>
+
+            <circle cx="120" cy="130" r="7" class="node node--warm"></circle>
+            <circle cx="350" cy="150" r="7" class="node node--warm"></circle>
+            <circle cx="150" cy="340" r="7" class="node node--warm"></circle>
+            <circle cx="340" cy="330" r="7" class="node node--warm"></circle>
+            <circle cx="240" cy="240" r="11" class="node node--core"></circle>
+          </svg>
+        </div>
+      </div>
+
+      <div class="features">
+        <p class="section-label" data-i18n="landing.howSmritiHelps">How Smriti helps</p>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <i class="ti ti-brain" aria-hidden="true"></i>
+            <h3 data-i18n="landing.feature1.title">Memory aids</h3>
+            <p data-i18n="landing.feature1.desc">Daily routines, medication reminders, and a photo memory bank of family
+              and friends, ready to recall on request.</p>
+          </article>
+          <article class="feature-card">
+            <i class="ti ti-puzzle" aria-hidden="true"></i>
+            <h3 data-i18n="landing.feature2.title">Gentle exercises</h3>
+            <p data-i18n="landing.feature2.desc">Short recall games and word association tasks that adapt in difficulty,
+              designed to keep the mind engaged, not overwhelmed.</p>
+          </article>
+          <article class="feature-card">
+            <i class="ti ti-shield-heart" aria-hidden="true"></i>
+            <h3 data-i18n="landing.feature3.title">Safety & oversight</h3>
+            <p data-i18n="landing.feature3.desc">An emergency contact always one tap away, and a caretaker dashboard
+              that shows routine adherence at a glance.</p>
+          </article>
+          <article class="feature-card">
+            <i class="ti ti-scan" aria-hidden="true"></i>
+            <h3 data-i18n="landing.feature4.title">Face-scan access</h3>
+            <p data-i18n="landing.feature4.desc">No passwords to forget. A quick face scan gets the patient straight
+              into their own dashboard.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="cta-band">
+        <h2 data-i18n="landing.readyTitle">Ready to begin?</h2>
+        <p data-i18n="landing.readySub">Registration takes about five minutes and covers both the patient and their
+          caretaker.</p>
+        <div class="hero__actions">
+          <button class="btn btn--primary" data-nav="register" data-i18n="landing.registerBtn">Let's cure u —
+            register</button>
+          <button class="btn btn--ghost" data-nav="login" data-i18n="landing.haveAccount">I already have an
+            account</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REGISTER VIEW ============ -->
+    <section id="view-register" class="view">
+      <div class="form-page">
+        <div class="form-page__intro">
+          <h1 data-i18n="reg.pageTitle">Let's cure u</h1>
+          <p data-i18n="reg.intro">Tell us about the patient and their caretaker. This takes about five minutes.</p>
+        </div>
+
+        <form id="register-form" novalidate>
+
+          <p class="step-indicator" id="step-indicator">Step 1 of 2 &mdash; Patient details</p>
+
+          <div id="register-step-patient" class="register-step is-active">
+            <section class="form-section">
+              <h2><i class="ti ti-user-heart" aria-hidden="true"></i> Patient details</h2>
+              <p class="hint" data-i18n="reg.patientHint">Basic information about the person living with memory loss.
+              </p>
+
+              <div class="field-grid">
+                <div class="field">
+                  <label for="p-name" data-i18n="reg.fullName">Full name</label>
+                  <input type="text" id="p-name" placeholder="e.g. Radha Sharma">
+                  <span class="field-error" data-error="patient.name"></span>
+                </div>
+                <div class="field">
+                  <label for="p-age" data-i18n="reg.age">Age</label>
+                  <input type="number" id="p-age" min="7" max="120" placeholder="e.g. 68">
+                  <span class="field-error" data-error="patient.age"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.gender">Gender</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="p-gender" value="male"> <span
+                        data-i18n="enum.male">Male</span></label>
+                    <label class="radio-pill"><input type="radio" name="p-gender" value="female"> <span
+                        data-i18n="enum.female">Female</span></label>
+                    <label class="radio-pill"><input type="radio" name="p-gender" value="other"> <span
+                        data-i18n="enum.other">Other</span></label>
+                  </div>
+                  <span class="field-error" data-error="patient.gender"></span>
+                </div>
+                <div class="field field--full">
+                  <label for="p-address" data-i18n="reg.homeAddress">Home address</label>
+                  <textarea id="p-address" placeholder="House no., street, city, state, PIN code"></textarea>
+                  <span class="field-error" data-error="patient.address"></span>
+                </div>
+                <div class="field">
+                  <label for="p-onset" data-i18n="reg.onsetDate">Date the disease started</label>
+                  <input type="date" id="p-onset">
+                  <span class="field-error" data-error="patient.onset_date"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.memoryLossType">Type of memory loss</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="p-memtype" value="short_term"> <span
+                        data-i18n="enum.shortTerm">Short-term</span></label>
+                    <label class="radio-pill"><input type="radio" name="p-memtype" value="long_term"> <span
+                        data-i18n="enum.longTerm">Long-term</span></label>
+                    <label class="radio-pill"><input type="radio" name="p-memtype" value="both"> <span
+                        data-i18n="enum.both">Both</span></label>
+                  </div>
+                  <span class="field-error" data-error="patient.memory_loss_type"></span>
+                </div>
+                <div class="field field--full">
+                  <label>Other conditions <span class="optional">(optional, select all that apply)</span></label>
+                  <div class="checkbox-group" data-checkbox-group="patient-conditions">
+                    <label class="radio-pill"><input type="checkbox" value="hearing_impairment"> <span
+                        data-i18n="cond.hearing">Hearing impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="speech_impairment"> <span
+                        data-i18n="cond.speech">Speech impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="mobility_impairment"> <span
+                        data-i18n="cond.mobility">Mobility impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="vision_impairment"> <span
+                        data-i18n="cond.vision">Vision impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="diabetes"> <span
+                        data-i18n="cond.diabetes">Diabetes</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="hypertension"> <span
+                        data-i18n="cond.hypertension">Hypertension</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="other"> <span
+                        data-i18n="enum.other">Other</span></label>
+                  </div>
+                  <input type="text" id="p-extra-other" placeholder="Describe other condition"
+                    style="margin-top: var(--space-sm);">
+                </div>
+                <div class="field field--full">
+                  <label>Unusual repeated activities <span class="optional">(optional — up to 5, one per
+                      line)</span></label>
+                  <textarea id="p-unusual"
+                    placeholder="e.g. Asks the same question repeatedly&#10;Looks for keys that are already in hand&#10;Paces near the front door in the evening"></textarea>
+                  <label class="radio-pill"
+                    style="margin-top: var(--space-sm); display:inline-flex; width:fit-content;">
+                    <input type="checkbox" id="p-unusual-none"> Nothing unusual to report
+                  </label>
+                </div>
+              </div>
+
+              <div class="face-capture" data-face-capture="patient">
+                <div class="face-capture__frame">
+                  <video autoplay playsinline muted></video>
+                  <canvas hidden></canvas>
+                  <div class="scan-ring" aria-hidden="true"></div>
+                </div>
+                <p class="face-capture__status">Starting camera&hellip;</p>
+                <button type="button" class="btn btn--primary btn-scan" data-scan="patient">
+                  <i class="ti ti-scan" aria-hidden="true"></i> Scan patient's face
+                </button>
+                <span class="field-error" data-error="patient_face"></span>
+              </div>
+            </section>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn--primary" id="to-caretaker-step">
+                Next: caretaker details <i class="ti ti-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+            <p class="submit-error" id="patient-step-error"></p>
+          </div>
+
+          <div id="register-step-caretaker" class="register-step">
+            <section class="form-section">
+              <h2><i class="ti ti-users" aria-hidden="true"></i> Caretaker details</h2>
+              <p class="hint" data-i18n="reg.caretakerHint">Who's looking after the patient day to day.</p>
+
+              <div class="field-grid">
+                <div class="field">
+                  <label for="c-name">Full name</label>
+                  <input type="text" id="c-name" placeholder="e.g. Aditya Sharma">
+                  <span class="field-error" data-error="caretaker.full_name"></span>
+                </div>
+                <div class="field">
+                  <label for="c-phone" data-i18n="reg.phoneNumber">Phone number</label>
+                  <input type="tel" id="c-phone" maxlength="10" placeholder="10-digit mobile number">
+                  <span class="field-error" data-error="caretaker.phone"></span>
+                </div>
+                <div class="field">
+                  <label for="c-emergency">Emergency phone <span class="optional">(optional)</span></label>
+                  <input type="tel" id="c-emergency" maxlength="10" placeholder="A different 10-digit number">
+                  <span class="field-error" data-error="caretaker.emergency_phone"></span>
+                </div>
+                <div class="field">
+                  <label for="c-age">Age</label>
+                  <input type="number" id="c-age" min="7" max="120" placeholder="e.g. 34">
+                  <span class="field-error" data-error="caretaker.age"></span>
+                </div>
+                <div class="field field--full">
+                  <label>Gender</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="c-gender" value="male"> <span
+                        data-i18n="enum.male">Male</span></label>
+                    <label class="radio-pill"><input type="radio" name="c-gender" value="female"> <span
+                        data-i18n="enum.female">Female</span></label>
+                    <label class="radio-pill"><input type="radio" name="c-gender" value="other"> <span
+                        data-i18n="enum.other">Other</span></label>
+                  </div>
+                  <span class="field-error" data-error="caretaker.gender"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.relationWithPatient">Relation with patient</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="c-relation" value="family"> <span
+                        data-i18n="enum.family">Family</span></label>
+                    <label class="radio-pill"><input type="radio" name="c-relation" value="friend"> <span
+                        data-i18n="enum.friend">Friend</span></label>
+                    <label class="radio-pill"><input type="radio" name="c-relation" value="relative"> <span
+                        data-i18n="enum.relative">Relative</span></label>
+                    <label class="radio-pill"><input type="radio" name="c-relation" value="other"> <span
+                        data-i18n="enum.other">Other</span></label>
+                  </div>
+                  <input type="text" id="c-relation-other" placeholder="Specify relation"
+                    style="margin-top: var(--space-sm); display:none;">
+                  <span class="field-error" data-error="caretaker.relation"></span>
+                </div>
+                <div class="field">
+                  <label for="c-email">Email address <span class="optional">(optional)</span></label>
+                  <input type="email" id="c-email" placeholder="name@example.com">
+                  <span class="field-error" data-error="caretaker.email"></span>
+                </div>
+                <div class="field">
+                  <label for="c-hours" data-i18n="reg.hoursAvailable">Hours available with patient in 24h
+                    (1&ndash;24)</label>
+                  <input type="number" id="c-hours" min="1" max="24" step="0.5" placeholder="e.g. 8">
+                  <span class="field-error" data-error="caretaker.availability_hours"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.caretakerAddress">Caretaker's address</label>
+                  <div class="radio-group" style="margin-bottom: var(--space-sm);">
+                    <label class="radio-pill"><input type="radio" name="c-address-same" value="same" checked> <span
+                        data-i18n="reg.sameAsPatient">Same as patient</span></label>
+                    <label class="radio-pill"><input type="radio" name="c-address-same" value="different"> <span
+                        data-i18n="reg.differentLocation">Different location</span></label>
+                  </div>
+                  <textarea id="c-address" placeholder="Address" style="display:none;"></textarea>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.underObservation">Is the patient currently under professional
+                    observation?</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="c-observation" value="yes"> <span
+                        data-i18n="reg.yes">Yes</span></label>
+                    <label class="radio-pill"><input type="radio" name="c-observation" value="no"> <span
+                        data-i18n="reg.no">No</span></label>
+                  </div>
+                  <span class="field-error" data-error="caretaker.under_observation"></span>
+                </div>
+                <div class="field field--full" id="facility-field" style="display:none;">
+                  <label for="c-facility" data-i18n="reg.facilityLocation">Hospital / facility location</label>
+                  <input type="text" id="c-facility" placeholder="Name and location of hospital or facility">
+                  <span class="field-error" data-error="caretaker.facility_location"></span>
+                </div>
+              </div>
+
+              <div class="face-capture" data-face-capture="caretaker">
+                <div class="face-capture__frame">
+                  <video autoplay playsinline muted></video>
+                  <canvas hidden></canvas>
+                  <div class="scan-ring" aria-hidden="true"></div>
+                </div>
+                <p class="face-capture__status">Starting camera&hellip;</p>
+                <button type="button" class="btn btn--primary btn-scan" data-scan="caretaker">
+                  <i class="ti ti-scan" aria-hidden="true"></i> Scan caretaker's face
+                </button>
+                <span class="field-error" data-error="caretaker_face"></span>
+              </div>
+            </section>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn--ghost" id="back-to-patient-step">
+                <i class="ti ti-arrow-left" aria-hidden="true"></i> Back
+              </button>
+              <button type="submit" class="btn btn--primary" id="register-submit">
+                <i class="ti ti-check" aria-hidden="true"></i> Create account
+              </button>
+            </div>
+            <p class="submit-error" id="register-error"></p>
+          </div>
+
+          <p class="form-note">Already registered? <button type="button" class="link-action" data-nav="login">Log in
+              instead</button></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ LOGIN VIEW ============ -->
+    <section id="view-login" class="view">
+      <div class="login-page">
+        <h1 id="login-heading" data-i18n="login.welcomeBack">Welcome back</h1>
+        <p class="sub" id="login-subtext" data-i18n="login.subtext">Scan your face to enter the patient dashboard.</p>
+
+        <div class="role-toggle">
+          <button type="button" class="role-tab is-active" data-login-role="patient">
+            <i class="ti ti-user-heart" aria-hidden="true"></i> <span data-i18n="login.patientTab">Patient</span>
+          </button>
+          <button type="button" class="role-tab" data-login-role="caretaker">
+            <i class="ti ti-users" aria-hidden="true"></i> <span data-i18n="login.caretakerTab">Caretaker</span>
+          </button>
+        </div>
+
+        <div class="face-capture" data-face-capture="login">
+          <div class="face-capture__frame">
+            <video autoplay playsinline muted></video>
+            <canvas hidden></canvas>
+            <div class="scan-ring" aria-hidden="true"></div>
+          </div>
+          <p class="face-capture__status">Starting camera&hellip;</p>
+          <button type="button" class="btn btn--primary btn-scan" id="login-scan-btn">
+            <i class="ti ti-scan" aria-hidden="true"></i> <span data-i18n="login.scanBtn">Scan and log in</span>
+          </button>
+        </div>
+
+        <p class="submit-error" id="login-error"></p>
+
+        <p class="form-note"><span data-i18n="login.newHere">New here?</span> <button type="button" class="link-action"
+            data-nav="register" data-i18n="login.registerInstead">Register instead</button></p>
+      </div>
+    </section>
+
+    <!-- ============ DASHBOARD VIEW ============ -->
+    <section id="view-dashboard" class="view">
+      <div class="dash">
+
+        <!-- Top bar -->
+        <div class="dash-topbar">
+          <svg class="dash-topbar__neural" viewBox="0 0 400 140" aria-hidden="true">
+            <line x1="40" y1="30" x2="110" y2="70" class="edge"></line>
+            <line x1="110" y1="70" x2="190" y2="40" class="edge"></line>
+            <line x1="110" y1="70" x2="150" y2="120" class="edge"></line>
+            <line x1="190" y1="40" x2="260" y2="80" class="edge"></line>
+            <line x1="260" y1="80" x2="340" y2="50" class="edge"></line>
+            <line x1="260" y1="80" x2="300" y2="120" class="edge"></line>
+            <circle cx="40" cy="30" r="3" class="node"></circle>
+            <circle cx="110" cy="70" r="4" class="node node--glow"></circle>
+            <circle cx="190" cy="40" r="3" class="node"></circle>
+            <circle cx="150" cy="120" r="3" class="node"></circle>
+            <circle cx="260" cy="80" r="4" class="node node--glow"></circle>
+            <circle cx="340" cy="50" r="3" class="node"></circle>
+            <circle cx="300" cy="120" r="3" class="node"></circle>
+          </svg>
+          <div class="dash-topbar__identity">
+            <div class="avatar-circle avatar-circle--sm" id="patient-avatar">
+              <i class="ti ti-user" aria-hidden="true"></i>
+              <img id="patient-avatar-img" alt="Patient photo" hidden>
+            </div>
+            <div>
+              <h1 id="dashboard-greeting">Welcome</h1>
+              <p class="welcome-sub" data-i18n="dashboard.subGreeting">Here's your day at a glance.</p>
+            </div>
+          </div>
+          <div class="dash-topbar__actions">
+            <button type="button" class="icon-btn" id="profile-btn"><i class="ti ti-user-circle" aria-hidden="true"></i>
+              <span data-i18n="nav.profile">Profile</span></button>
+            <button type="button" class="icon-btn" id="quiz-topbar-btn"><i class="ti ti-puzzle" aria-hidden="true"></i>
+              <span data-i18n="nav.quizGames">Quiz &amp; Games</span></button>
+            <button type="button" class="icon-btn icon-btn--emergency" id="emergency-btn-top"><i
+                class="ti ti-phone-call" aria-hidden="true"></i> <span data-i18n="nav.emergency">Emergency
+                help</span></button>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-card__top">
+              <div class="stat-card__icon tint-amber"><i class="ti ti-checklist" aria-hidden="true"></i></div>
+              <span class="stat-card__trend" id="stat-tasks-trend">&nbsp;</span>
+            </div>
+            <p class="stat-card__value" id="stat-tasks-value">&mdash;</p>
+            <p class="stat-card__label" data-i18n="stat.tasksToday">Tasks completed today</p>
+          </div>
+          <div class="stat-card" id="stat-quiz-card" style="cursor:pointer;" role="button" tabindex="0">
+            <div class="stat-card__top">
+              <div class="stat-card__icon tint-violet"><i class="ti ti-puzzle" aria-hidden="true"></i></div>
+              <span class="stat-card__trend">&nbsp;</span>
+            </div>
+            <p class="stat-card__value" id="stat-quiz-value" style="font-size: 18px;">No data yet</p>
+            <p class="stat-card__label" data-i18n="stat.quizGamesWeek">Quiz &amp; games accuracy this week &mdash; tap
+              to play</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__top">
+              <div class="stat-card__icon tint-coral"><i class="ti ti-calendar-event" aria-hidden="true"></i></div>
+              <span class="stat-card__trend" id="stat-event-trend">&nbsp;</span>
+            </div>
+            <p class="stat-card__value" id="stat-event-value" style="font-size: 18px;">&mdash;</p>
+            <p class="stat-card__label" id="stat-event-label" data-i18n="stat.upcomingEvent">Upcoming event</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__top">
+              <div class="stat-card__icon tint-amber"><i class="ti ti-clock" aria-hidden="true"></i></div>
+              <span class="stat-card__trend" id="stat-next-task-trend">&nbsp;</span>
+            </div>
+            <p class="stat-card__value" id="stat-next-task-value" style="font-size: 18px;">&mdash;</p>
+            <p class="stat-card__label" data-i18n="stat.nextTask">Next task</p>
+          </div>
+        </div>
+
+        <!-- Main grid: progress chart + caretaker -->
+        <p class="dash-section-label" data-i18n="section.progress">Progress</p>
+        <div class="dash-main-grid">
+          <div class="panel panel--cognitive">
+            <div class="panel__head">
+              <div>
+                <h3 data-i18n="chart.title">Memory &amp; recall progress</h3>
+                <p class="sub" data-i18n="chart.subtitle">Based on quiz results over time</p>
+              </div>
+              <div class="chart-tabs">
+                <button type="button" class="chart-tab is-active" data-chart-tab="short"
+                  data-i18n="chart.shortTerm">Short-term</button>
+                <button type="button" class="chart-tab" data-chart-tab="long"
+                  data-i18n="chart.longTerm">Long-term</button>
+                <button type="button" class="chart-tab" data-chart-tab="accuracy" data-i18n="chart.brainAccuracy">Brain
+                  accuracy</button>
+                <button type="button" class="chart-tab" data-chart-tab="games" data-i18n="chart.byGame">By game</button>
+              </div>
+            </div>
+
+            <div class="chart-panel is-active" data-chart-panel="short">
+              <svg class="chart-svg" viewBox="0 0 300 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop id="chart-short-grad-top" offset="0%" stop-color="var(--violet)" stop-opacity="0.35" />
+                    <stop id="chart-short-grad-bottom" offset="100%" stop-color="var(--violet)" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <line class="grid-line" x1="0" y1="25" x2="300" y2="25"></line>
+                <line class="grid-line" x1="0" y1="50" x2="300" y2="50"></line>
+                <line class="grid-line" x1="0" y1="75" x2="300" y2="75"></line>
+                <polygon class="data-fill" id="chart-short-fill" fill="url(#chartGradient)" points="0,100 0,100">
+                </polygon>
+                <polyline class="data-line" id="chart-short-line" points="0,100"></polyline>
+                <circle class="data-dot" id="chart-short-dot" cx="0" cy="100" r="3.5"></circle>
+              </svg>
+              <div class="chart-foot"><span>7 days ago</span><span>Today</span></div>
+              <div class="chart-callout"><span class="big" id="chart-short-big">&mdash;</span><span class="small"
+                  id="chart-short-small">Loading quiz history&hellip;</span></div>
+            </div>
+
+            <div class="chart-panel" data-chart-panel="long">
+              <svg class="chart-svg" viewBox="0 0 300 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGradientLong" x1="0" y1="0" x2="0" y2="1">
+                    <stop id="chart-long-grad-top" offset="0%" stop-color="var(--violet)" stop-opacity="0.35" />
+                    <stop id="chart-long-grad-bottom" offset="100%" stop-color="var(--violet)" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <line class="grid-line" x1="0" y1="25" x2="300" y2="25"></line>
+                <line class="grid-line" x1="0" y1="50" x2="300" y2="50"></line>
+                <line class="grid-line" x1="0" y1="75" x2="300" y2="75"></line>
+                <polygon class="data-fill" id="chart-long-fill" fill="url(#chartGradientLong)" points="0,100 0,100">
+                </polygon>
+                <polyline class="data-line" id="chart-long-line" points="0,100"></polyline>
+                <circle class="data-dot" id="chart-long-dot" cx="0" cy="100" r="3.5"></circle>
+              </svg>
+              <div class="chart-foot"><span>8 weeks ago</span><span>This week</span></div>
+              <div class="chart-callout"><span class="big" id="chart-long-big">&mdash;</span><span class="small"
+                  id="chart-long-small">Loading quiz history&hellip;</span></div>
+            </div>
+
+            <div class="chart-panel" data-chart-panel="accuracy">
+              <svg class="chart-svg" viewBox="0 0 300 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGradientAcc" x1="0" y1="0" x2="0" y2="1">
+                    <stop id="chart-brain-grad-top" offset="0%" stop-color="var(--violet)" stop-opacity="0.35" />
+                    <stop id="chart-brain-grad-bottom" offset="100%" stop-color="var(--violet)" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <line class="grid-line" x1="0" y1="25" x2="300" y2="25"></line>
+                <line class="grid-line" x1="0" y1="50" x2="300" y2="50"></line>
+                <line class="grid-line" x1="0" y1="75" x2="300" y2="75"></line>
+                <polygon class="data-fill" id="chart-brain-fill" fill="url(#chartGradientAcc)" points="0,100 0,100">
+                </polygon>
+                <polyline class="data-line" id="chart-brain-line" points="0,100"></polyline>
+                <circle class="data-dot" id="chart-brain-dot" cx="0" cy="100" r="3.5"></circle>
+              </svg>
+              <div class="chart-foot"><span>7 days ago</span><span>Today</span></div>
+              <div class="chart-callout"><span class="big" id="chart-brain-big">&mdash;</span><span class="small"
+                  id="chart-brain-small">Loading quiz history&hellip;</span></div>
+            </div>
+
+            <div class="chart-panel" data-chart-panel="games">
+              <div class="bar-chart" id="game-bar-chart">
+                <p class="bar-chart__empty" id="game-bar-chart-empty" data-i18n="chart.noGamesYet">No games played in
+                  the last 7 days yet.</p>
+              </div>
+              <div class="chart-callout"><span class="small" data-i18n="chart.byGameSubtitle">Accuracy per game, last 7
+                  days</span></div>
+            </div>
+          </div>
+
+          <div class="panel panel--cognitive" id="recognize-panel">
+            <div class="panel__head">
+              <div>
+                <h3 data-i18n="panel.recognizePerson">Recognize a person</h3>
+                <p class="sub" data-i18n="recognize.subtitle">Point the camera at them and tap Scan.</p>
+              </div>
+              <button type="button" class="icon-btn" id="recognize-search-btn">
+                <i class="ti ti-search" aria-hidden="true"></i> <span data-i18n="recognize.searchPeople">Search
+                  people</span>
+              </button>
+            </div>
+
+            <div class="recognize-panel-body">
+              <!-- Search / browse mode: list of everyone this patient has registered -->
+              <div class="recognize-browse" id="recognize-browse">
+                <div class="recognize-browse__searchbar">
+                  <i class="ti ti-search" aria-hidden="true"></i>
+                  <input type="text" id="recognize-search-input" data-i18n-placeholder="recognize.searchPlaceholder"
+                    placeholder="Search by name, relation, or connection&hellip;">
+                  <button type="button" class="icon-btn" id="recognize-browse-back">
+                    <i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="recognize.backToScan">Back to
+                      scan</span>
+                  </button>
+                </div>
+                <p class="face-capture__status" id="recognize-browse-status" style="text-align:left;"></p>
+                <ul class="known-people-list" id="known-people-list"></ul>
+              </div>
+              <div id="recognize-scan-area">
+                <div class="face-capture face-capture--rect" id="recognize-capture-area" data-face-capture="recognize">
+                  <div class="face-capture__frame">
+                    <video autoplay playsinline muted></video>
+                    <canvas hidden></canvas>
+                    <div class="scan-ring" aria-hidden="true"></div>
+                  </div>
+                  <p class="face-capture__status">Starting camera&hellip;</p>
+                  <button type="button" class="btn btn--primary" id="recognize-scan-btn"
+                    style="width:100%; justify-content:center;">
+                    <i class="ti ti-scan" aria-hidden="true"></i> <span data-i18n="recognize.scanBtn">Scan this
+                      person</span>
+                  </button>
+                </div>
+
+                <p class="submit-error" id="recognize-error"></p>
+
+                <!-- Result: person recognized -->
+                <div class="recognize-result" id="recognize-result">
+                  <div class="recognize-result__person">
+                    <div class="avatar-circle avatar-circle--lg" id="recognize-result-avatar">
+                      <i class="ti ti-user" aria-hidden="true"></i>
+                      <img id="recognize-result-avatar-img" alt="" hidden>
+                    </div>
+                    <div>
+                      <h4 id="recognize-result-name"
+                        style="margin:0; font-family: var(--font-display); font-weight:500; font-size:19px;">&mdash;
+                      </h4>
+                      <span class="memory-type-badge" id="recognize-result-memtype">&mdash;</span>
+                    </div>
+                  </div>
+                  <ul class="recognize-result__facts">
+                    <li><i class="ti ti-users" aria-hidden="true"></i> <span class="label">Relation</span> <span
+                        id="recognize-result-relation">&mdash;</span></li>
+                    <li><i class="ti ti-clock" aria-hidden="true"></i> <span class="label">Known for</span> <span
+                        id="recognize-result-since">&mdash;</span></li>
+                    <li id="recognize-result-note-row"><i class="ti ti-note" aria-hidden="true"></i> <span
+                        class="label">Memory</span> <span id="recognize-result-note">&mdash;</span></li>
+                  </ul>
+                  <div class="form-actions" style="margin-top: var(--space-md);">
+                    <button type="button" class="btn btn--ghost" id="recognize-scan-again"
+                      style="width:100%; justify-content:center;">
+                      <i class="ti ti-refresh" aria-hidden="true"></i> Scan someone else
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Result: person not recognized -->
+                <div class="recognize-not-found" id="recognize-not-found">
+                  <i class="ti ti-user-question" aria-hidden="true"></i>
+                  <p style="margin: 0 0 var(--space-md);">We don't recognize this person yet.</p>
+                  <button type="button" class="btn btn--primary" id="recognize-add-person-btn"
+                    style="width:100%; justify-content:center;">
+                    <i class="ti ti-user-plus" aria-hidden="true"></i> Add this person
+                  </button>
+                </div>
+
+                <!-- Register a newly-scanned person -->
+                <form class="recognize-register-form" id="recognize-register-form">
+                  <div class="field-grid">
+                    <div class="field field--full">
+                      <label for="rp-name" data-i18n="reg.name">Name</label>
+                      <input type="text" id="rp-name" placeholder="e.g. Priya">
+                      <span class="field-error" data-error="name"></span>
+                    </div>
+                    <div class="field field--full">
+                      <label for="rp-relation" data-i18n="reg.relation">Relation</label>
+                      <input type="text" id="rp-relation" placeholder="e.g. Neighbor, cousin's wife, family doctor">
+                      <span class="field-error" data-error="relation"></span>
+                    </div>
+                    <div class="field field--full">
+                      <label for="rp-since" data-i18n="reg.howLongKnown">How long has the patient known them?</label>
+                      <input type="text" id="rp-since" placeholder="e.g. 10 years, since childhood">
+                      <span class="field-error" data-error="known_since"></span>
+                    </div>
+                    <div class="field field--full">
+                      <label data-i18n="reg.connectionType">What best describes the connection?</label>
+                      <div class="radio-group">
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="family"> <span
+                            data-i18n="enum.family">Family</span></label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="friend"> <span
+                            data-i18n="enum.friend">Friend</span></label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="love"> Love</label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="teacher"> Teacher</label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="student"> Student</label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="colleague">
+                          Colleague</label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="neighbor">
+                          Neighbor</label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="enemy"> Enemy</label>
+                        <label class="radio-pill"><input type="radio" name="rp-memtype" value="other"> <span
+                            data-i18n="enum.other">Other</span></label>
+                      </div>
+                      <span class="field-error" data-error="memory_type"></span>
+                    </div>
+                    <div class="field field--full">
+                      <label for="rp-note">Any close memory with them <span class="optional">(optional)</span></label>
+                      <textarea id="rp-note"
+                        placeholder="e.g. She taught me in school, or we used to argue about politics every Sunday"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <button type="button" class="btn btn--ghost" id="recognize-cancel-register">Cancel</button>
+                    <button type="submit" class="btn btn--primary"><i class="ti ti-check" aria-hidden="true"></i> Save
+                      this person</button>
+                  </div>
+                  <p class="submit-error" id="recognize-register-error"></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary grid: timetable + events -->
+        <p class="dash-section-label" data-i18n="section.schedule">Schedule</p>
+        <div class="dash-secondary-grid">
+          <div class="panel panel--care" id="timetable-panel">
+            <div class="panel__head">
+              <div>
+                <h3 data-i18n="panel.timetable">Today's timetable</h3>
+                <p class="sub" data-i18n="timetable.subtitle">Daily routine &mdash; add, edit, and confirm each task.
+                </p>
+              </div>
+              <button type="button" class="icon-btn" id="add-task-btn">
+                <i class="ti ti-plus" aria-hidden="true"></i> <span data-i18n="timetable.addTask">Add task</span>
+              </button>
+            </div>
+
+            <!-- Add / edit task form -->
+            <form id="task-form" style="display:none; margin-bottom: var(--space-md);">
+              <input type="hidden" id="task-form-id">
+              <div class="field-grid">
+                <div class="field field--full">
+                  <label for="task-name" data-i18n="form.task">Task</label>
+                  <input type="text" id="task-name" data-i18n-placeholder="form.taskPlaceholder"
+                    placeholder="e.g. Morning medication, Bathing, Lunch">
+                  <span class="field-error" data-error="name"></span>
+                </div>
+                <div class="field">
+                  <label for="task-start" data-i18n="form.from">From</label>
+                  <input type="time" id="task-start">
+                  <span class="field-error" data-error="start_time"></span>
+                </div>
+                <div class="field">
+                  <label for="task-end" data-i18n="form.to">To</label>
+                  <input type="time" id="task-end">
+                  <span class="field-error" data-error="end_time"></span>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn--ghost" id="task-form-cancel"
+                  data-i18n="form.cancel">Cancel</button>
+                <button type="submit" class="btn btn--primary" id="task-form-save"><i class="ti ti-check"
+                    aria-hidden="true"></i> <span data-i18n="form.saveTask">Save task</span></button>
+              </div>
+              <p class="submit-error" id="task-form-error"></p>
+            </form>
+
+            <p class="face-capture__status" id="task-list-status" style="text-align:left;"></p>
+            <ul class="timetable-list" id="task-list"></ul>
+          </div>
+
+          <div class="panel panel--care" id="events-panel">
+            <div class="panel__head">
+              <div>
+                <h3 data-i18n="panel.events">Important events &amp; dates</h3>
+                <p class="sub" data-i18n="events.subtitle">One-off reminders &mdash; appointments, birthdays, and more.
+                </p>
+              </div>
+              <button type="button" class="icon-btn" id="add-event-btn">
+                <i class="ti ti-plus" aria-hidden="true"></i> <span data-i18n="events.addEvent">Add event</span>
+              </button>
+            </div>
+
+            <!-- Add / edit event form -->
+            <form id="event-form" style="display:none; margin-bottom: var(--space-md);">
+              <input type="hidden" id="event-form-id">
+              <div class="field-grid">
+                <div class="field field--full">
+                  <label for="event-title" data-i18n="form.event">Event</label>
+                  <input type="text" id="event-title" data-i18n-placeholder="form.eventPlaceholder"
+                    placeholder="e.g. Dr. Mehta &ndash; check-up, Grandson's birthday">
+                  <span class="field-error" data-error="title"></span>
+                </div>
+                <div class="field">
+                  <label for="event-date" data-i18n="form.date">Date</label>
+                  <input type="date" id="event-date">
+                  <span class="field-error" data-error="event_date"></span>
+                </div>
+                <div class="field">
+                  <label for="event-time" data-i18n="form.time">Time</label>
+                  <input type="time" id="event-time">
+                  <span class="field-error" data-error="event_time"></span>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn--ghost" id="event-form-cancel"
+                  data-i18n="form.cancel">Cancel</button>
+                <button type="submit" class="btn btn--primary" id="event-form-save"><i class="ti ti-check"
+                    aria-hidden="true"></i> <span data-i18n="form.saveEvent">Save event</span></button>
+              </div>
+              <p class="submit-error" id="event-form-error"></p>
+            </form>
+
+            <p class="face-capture__status" id="event-list-status" style="text-align:left;"></p>
+            <ul class="events-list" id="event-list"></ul>
+          </div>
+        </div>
+
+        <!-- Tertiary grid: minimap + quick actions -->
+        <p class="dash-section-label" data-i18n="section.safety">Safety &amp; quick actions</p>
+        <div class="dash-tertiary-grid">
+          <div class="panel panel--places">
+            <div class="panel__head">
+              <div>
+                <h3 data-i18n="panel.location">Current location</h3>
+                <p class="sub" id="live-location-updated">Not fetched yet</p>
+              </div>
+            </div>
+            <div class="minimap" id="live-map"></div>
+            <p class="face-capture__status" id="live-location-status"
+              style="text-align:left; margin: var(--space-xs) 0;"></p>
+            <button type="button" class="btn btn--ghost" id="refresh-location-btn"
+              style="width:100%; justify-content:center;">
+              <i class="ti ti-current-location" aria-hidden="true"></i> <span data-i18n="location.refresh">Refresh live
+                location</span>
+            </button>
+            <div class="nearby-btn-row">
+              <button type="button" class="icon-btn nearby-btn" id="nearby-hospital-btn">
+                <i class="ti ti-building-hospital" aria-hidden="true"></i> <span
+                  data-i18n="location.nearbyHospital">Hospital</span>
+              </button>
+              <button type="button" class="icon-btn nearby-btn" id="nearby-pharmacy-btn">
+                <i class="ti ti-pill" aria-hidden="true"></i> <span data-i18n="location.nearbyPharmacy">Pharmacy</span>
+              </button>
+              <button type="button" class="icon-btn nearby-btn" id="nearby-police-btn">
+                <i class="ti ti-shield" aria-hidden="true"></i> <span data-i18n="location.nearbyPolice">Police</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel panel--places" id="find-things-panel">
+            <div class="panel__head">
+              <div>
+                <h3 data-i18n="panel.findThings">Find My Things</h3>
+                <p class="sub" data-i18n="objects.subtitle">Photograph an object and note where you put it.</p>
+              </div>
+              <button type="button" class="icon-btn" id="object-search-btn">
+                <i class="ti ti-search" aria-hidden="true"></i> <span data-i18n="objects.search">Search</span>
+              </button>
+            </div>
+
+            <div id="object-add-area">
+              <div class="face-capture face-capture--rect" id="object-capture-area" data-face-capture="object">
+                <div class="face-capture__frame">
+                  <video autoplay playsinline muted></video>
+                  <canvas hidden></canvas>
+                  <div class="scan-ring" aria-hidden="true"></div>
+                </div>
+                <p class="face-capture__status">Starting camera&hellip;</p>
+                <button type="button" class="btn btn--primary" id="object-scan-btn"
+                  style="width:100%; justify-content:center;">
+                  <i class="ti ti-camera" aria-hidden="true"></i> <span data-i18n="objects.takePhoto">Take photo</span>
+                </button>
+              </div>
+
+              <form id="object-form" style="display:none;">
+                <div class="field-grid">
+                  <div class="field field--full">
+                    <label for="object-name" data-i18n="objects.whatIsIt">What is it?</label>
+                    <input type="text" id="object-name" data-i18n-placeholder="objects.namePlaceholder"
+                      placeholder="e.g. Party coat, Insurance file">
+                    <span class="field-error" data-error="name"></span>
+                  </div>
+                  <div class="field field--full">
+                    <label for="object-location" data-i18n="objects.whereDidYouPutIt">Where did you put it?</label>
+                    <input type="text" id="object-location" data-i18n-placeholder="objects.locationPlaceholder"
+                      placeholder="e.g. Upper section of almirah, Kitchen cupboard">
+                    <span class="field-error" data-error="location_note"></span>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="button" class="btn btn--ghost" id="object-retake-btn"
+                    data-i18n="objects.retakePhoto">Retake photo</button>
+                  <button type="submit" class="btn btn--primary"><i class="ti ti-check" aria-hidden="true"></i> <span
+                      data-i18n="objects.save">Save</span></button>
+                </div>
+                <p class="submit-error" id="object-form-error"></p>
+              </form>
+            </div>
+
+            <div id="object-search-area" style="display:none;">
+              <div class="recognize-browse__searchbar">
+                <i class="ti ti-search" aria-hidden="true"></i>
+                <input type="text" id="object-search-input" placeholder="Search by name or where you put it&hellip;">
+                <button type="button" class="icon-btn" id="object-search-back">
+                  <i class="ti ti-arrow-left" aria-hidden="true"></i> Back
+                </button>
+              </div>
+              <p class="face-capture__status" id="object-list-status" style="text-align:left;"></p>
+              <ul class="known-people-list" id="object-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-lg); text-align:center;"><button type="button" class="link-action"
+            id="logout-btn" data-i18n="nav.logout">Log out</button></p>
+      </div>
+
+      <button type="button" class="intro-fab" id="intro-btn">
+        <i class="ti ti-info-circle" aria-hidden="true"></i> <span data-i18n="nav.knowApp">Know About Application</span>
+      </button>
+
+      <button type="button" class="assistant-fab" id="assistant-fab">
+        <i class="ti ti-message-circle-2" aria-hidden="true"></i> <span data-i18n="nav.askSmriti">Ask Smriti</span>
+      </button>
+    </section>
+
+    <!-- ============ PROFILE VIEW ============ -->
+    <section id="view-profile" class="view">
+      <div class="dash" style="max-width: 900px;">
+
+        <div class="dash-topbar">
+          <div>
+            <h1>Profile</h1>
+            <p class="welcome-sub" data-i18n="profile.subtitle">View and update patient &amp; caretaker details.</p>
+          </div>
+          <div class="dash-topbar__actions">
+            <button type="button" class="icon-btn" data-nav="dashboard"><i class="ti ti-arrow-left"
+                aria-hidden="true"></i> <span data-i18n="profile.backToDashboard">Back to dashboard</span></button>
+          </div>
+        </div>
+
+        <div class="role-toggle" style="margin-bottom: var(--space-lg);">
+          <button type="button" class="role-tab is-active" data-profile-tab="patient">
+            <i class="ti ti-user-heart" aria-hidden="true"></i> Patient profile
+          </button>
+          <button type="button" class="role-tab" data-profile-tab="caretaker">
+            <i class="ti ti-users" aria-hidden="true"></i> Caretaker profile
+          </button>
+        </div>
+
+        <!-- ===== Patient profile tab ===== -->
+        <div class="profile-tab is-active" data-profile-panel="patient">
+          <div class="panel" style="margin-bottom: var(--space-md);">
+            <div class="panel__head">
+              <h3 data-i18n="profile.photo">Profile photo</h3>
+              <p class="sub">Shown on the dashboard only &mdash; not used for face-scan login.</p>
+            </div>
+            <div class="photo-upload-panel">
+              <div class="avatar-circle avatar-circle--lg" id="pf-patient-avatar">
+                <i class="ti ti-user" aria-hidden="true"></i>
+                <img id="pf-patient-avatar-img" alt="Patient photo" hidden>
+              </div>
+              <div>
+                <button type="button" class="btn btn--ghost" id="pf-patient-photo-btn">
+                  <i class="ti ti-camera" aria-hidden="true"></i> <span data-i18n="profile.changePhoto">Change
+                    photo</span>
+                </button>
+                <input type="file" id="pf-patient-photo-input" accept="image/*" capture="user" hidden>
+                <p class="face-capture__status" id="pf-patient-photo-status"
+                  style="text-align:left; margin-top: var(--space-xs);"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-bottom: var(--space-md);">
+            <div class="panel__head">
+              <h3 data-i18n="profile.patientDetails">Patient details</h3>
+            </div>
+            <div class="field-grid">
+              <div class="field"><label data-i18n="reg.name">Name</label>
+                <p class="readonly-value" id="pf-p-name">&mdash;</p>
+              </div>
+              <div class="field"><label data-i18n="reg.age">Age</label>
+                <p class="readonly-value" id="pf-p-age">&mdash;</p>
+              </div>
+              <div class="field"><label data-i18n="reg.gender">Gender</label>
+                <p class="readonly-value" id="pf-p-gender">&mdash;</p>
+              </div>
+              <div class="field"><label data-i18n="profile.diseaseOnset">Disease onset</label>
+                <p class="readonly-value" id="pf-p-onset">&mdash;</p>
+              </div>
+              <div class="field field--full"><label data-i18n="reg.memoryLossType">Type of memory loss</label>
+                <p class="readonly-value" id="pf-p-memtype">&mdash;</p>
+              </div>
+            </div>
+          </div>
+
+          <form id="patient-profile-form">
+            <div class="panel">
+              <div class="panel__head">
+                <div>
+                  <h3 data-i18n="profile.editableDetails">Editable details</h3>
+                  <p class="sub">You can update these any time.</p>
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field field--full">
+                  <label for="pf-address" data-i18n="reg.homeAddress">Home address</label>
+                  <textarea id="pf-address"></textarea>
+                  <span class="field-error" data-error="pf-patient.address"></span>
+                </div>
+                <div class="field field--full">
+                  <label for="pf-neighbour-phone">Neighbour's phone <span class="optional">(shown on the Emergency
+                      screen)</span></label>
+                  <input type="text" id="pf-neighbour-phone" placeholder="10-digit phone number">
+                  <span class="field-error" data-error="pf-patient.neighbour_phone"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="profile.otherConditions">Other conditions</label>
+                  <div class="checkbox-group" data-checkbox-group="pf-patient-conditions">
+                    <label class="radio-pill"><input type="checkbox" value="hearing_impairment"> <span
+                        data-i18n="cond.hearing">Hearing impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="speech_impairment"> <span
+                        data-i18n="cond.speech">Speech impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="mobility_impairment"> <span
+                        data-i18n="cond.mobility">Mobility impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="vision_impairment"> <span
+                        data-i18n="cond.vision">Vision impairment</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="diabetes"> <span
+                        data-i18n="cond.diabetes">Diabetes</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="hypertension"> <span
+                        data-i18n="cond.hypertension">Hypertension</span></label>
+                    <label class="radio-pill"><input type="checkbox" value="other"> <span
+                        data-i18n="enum.other">Other</span></label>
+                  </div>
+                  <input type="text" id="pf-extra-other" placeholder="Describe other condition"
+                    style="margin-top: var(--space-sm);">
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="profile.unusualActivities">Unusual repeated activities</label>
+                  <textarea id="pf-unusual"></textarea>
+                  <label class="radio-pill"
+                    style="margin-top: var(--space-sm); display:inline-flex; width:fit-content;">
+                    <input type="checkbox" id="pf-unusual-none"> Nothing unusual to report
+                  </label>
+                </div>
+              </div>
+              <div class="form-actions"><button type="submit" class="btn btn--primary"><i class="ti ti-device-floppy"
+                    aria-hidden="true"></i> Save changes</button></div>
+              <p class="submit-error" id="patient-profile-error"></p>
+              <p class="field-success" id="patient-profile-success">Saved.</p>
+            </div>
+          </form>
+        </div>
+
+        <!-- ===== Caretaker profile tab ===== -->
+        <div class="profile-tab" data-profile-panel="caretaker">
+          <div class="panel" style="margin-bottom: var(--space-md);">
+            <div class="panel__head">
+              <h3 data-i18n="profile.photo">Profile photo</h3>
+              <p class="sub">Shown on the dashboard only &mdash; not used for face-scan login.</p>
+            </div>
+            <div class="photo-upload-panel">
+              <div class="avatar-circle avatar-circle--lg" id="pf-caretaker-avatar">
+                <i class="ti ti-user" aria-hidden="true"></i>
+                <img id="pf-caretaker-avatar-img" alt="Caretaker photo" hidden>
+              </div>
+              <div>
+                <button type="button" class="btn btn--ghost" id="pf-caretaker-photo-btn">
+                  <i class="ti ti-camera" aria-hidden="true"></i> <span data-i18n="profile.changePhoto">Change
+                    photo</span>
+                </button>
+                <input type="file" id="pf-caretaker-photo-input" accept="image/*" capture="user" hidden>
+                <p class="face-capture__status" id="pf-caretaker-photo-status"
+                  style="text-align:left; margin-top: var(--space-xs);"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-bottom: var(--space-md);">
+            <div class="panel__head">
+              <h3 data-i18n="profile.caretakerDetails">Caretaker details</h3>
+            </div>
+            <div class="field-grid">
+              <div class="field"><label data-i18n="reg.name">Name</label>
+                <p class="readonly-value" id="pf-c-name">&mdash;</p>
+              </div>
+              <div class="field"><label data-i18n="reg.age">Age</label>
+                <p class="readonly-value" id="pf-c-age">&mdash;</p>
+              </div>
+              <div class="field"><label data-i18n="reg.gender">Gender</label>
+                <p class="readonly-value" id="pf-c-gender">&mdash;</p>
+              </div>
+              <div class="field"><label data-i18n="profile.relationToPatient">Relation to patient</label>
+                <p class="readonly-value" id="pf-c-relation">&mdash;</p>
+              </div>
+            </div>
+          </div>
+
+          <form id="caretaker-profile-form">
+            <div class="panel">
+              <div class="panel__head">
+                <div>
+                  <h3 data-i18n="profile.editableDetails">Editable details</h3>
+                  <p class="sub">You can update these any time.</p>
+                </div>
+              </div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="pf-c-phone" data-i18n="profile.contactNumber">Contact number</label>
+                  <input type="tel" id="pf-c-phone" maxlength="10">
+                  <span class="field-error" data-error="pf-caretaker.phone"></span>
+                </div>
+                <div class="field">
+                  <label for="pf-c-emergency">Emergency phone <span class="optional">(optional)</span></label>
+                  <input type="tel" id="pf-c-emergency" maxlength="10">
+                  <span class="field-error" data-error="pf-caretaker.emergency_phone"></span>
+                </div>
+                <div class="field">
+                  <label for="pf-c-email">Email address <span class="optional">(optional)</span></label>
+                  <input type="email" id="pf-c-email">
+                  <span class="field-error" data-error="pf-caretaker.email"></span>
+                </div>
+                <div class="field">
+                  <label for="pf-c-hours" data-i18n="reg.hoursAvailable">Hours available with patient in 24h
+                    (1&ndash;24)</label>
+                  <input type="number" id="pf-c-hours" min="1" max="24" step="0.5">
+                  <span class="field-error" data-error="pf-caretaker.availability_hours"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.caretakerAddress">Caretaker's address</label>
+                  <div class="radio-group" style="margin-bottom: var(--space-sm);">
+                    <label class="radio-pill"><input type="radio" name="pf-c-address-same" value="same"> <span
+                        data-i18n="reg.sameAsPatient">Same as patient</span></label>
+                    <label class="radio-pill"><input type="radio" name="pf-c-address-same" value="different"> <span
+                        data-i18n="reg.differentLocation">Different location</span></label>
+                  </div>
+                  <textarea id="pf-c-address" style="display:none;"></textarea>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.underObservation">Is the patient currently under professional
+                    observation?</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="pf-c-observation" value="yes"> <span
+                        data-i18n="reg.yes">Yes</span></label>
+                    <label class="radio-pill"><input type="radio" name="pf-c-observation" value="no"> <span
+                        data-i18n="reg.no">No</span></label>
+                  </div>
+                  <span class="field-error" data-error="pf-caretaker.under_observation"></span>
+                </div>
+                <div class="field field--full" id="pf-facility-field" style="display:none;">
+                  <label for="pf-c-facility" data-i18n="reg.facilityLocation">Hospital / facility location</label>
+                  <input type="text" id="pf-c-facility">
+                  <span class="field-error" data-error="pf-caretaker.facility_location"></span>
+                </div>
+              </div>
+              <div class="form-actions"><button type="submit" class="btn btn--primary"><i class="ti ti-device-floppy"
+                    aria-hidden="true"></i> Save changes</button></div>
+              <p class="submit-error" id="caretaker-profile-error"></p>
+              <p class="field-success" id="caretaker-profile-success">Saved.</p>
+            </div>
+          </form>
+
+          <div class="panel" style="margin-top: var(--space-md);">
+            <div class="panel__head">
+              <div>
+                <h3 data-i18n="profile.changeCaretaker">Change caretaker</h3>
+                <p class="sub">Use this if the person caring for the patient has changed.</p>
+              </div>
+            </div>
+            <button type="button" class="btn btn--ghost" id="reveal-change-caretaker">
+              <i class="ti ti-user-plus" aria-hidden="true"></i> <span data-i18n="profile.registerNewCaretaker">Register
+                a new caretaker</span>
+            </button>
+
+            <form id="change-caretaker-form" style="display:none; margin-top: var(--space-lg);">
+              <div class="field-grid">
+                <div class="field">
+                  <label for="nc-name" data-i18n="reg.fullName">Full name</label>
+                  <input type="text" id="nc-name" placeholder="e.g. Aditya Sharma">
+                  <span class="field-error" data-error="nc.full_name"></span>
+                </div>
+                <div class="field">
+                  <label for="nc-phone" data-i18n="reg.phoneNumber">Phone number</label>
+                  <input type="tel" id="nc-phone" maxlength="10" placeholder="10-digit mobile number">
+                  <span class="field-error" data-error="nc.phone"></span>
+                </div>
+                <div class="field">
+                  <label for="nc-emergency">Emergency phone <span class="optional">(optional)</span></label>
+                  <input type="tel" id="nc-emergency" maxlength="10">
+                  <span class="field-error" data-error="nc.emergency_phone"></span>
+                </div>
+                <div class="field">
+                  <label for="nc-age" data-i18n="reg.age">Age</label>
+                  <input type="number" id="nc-age" min="7" max="120" placeholder="e.g. 34">
+                  <span class="field-error" data-error="nc.age"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.gender">Gender</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="nc-gender" value="male"> <span
+                        data-i18n="enum.male">Male</span></label>
+                    <label class="radio-pill"><input type="radio" name="nc-gender" value="female"> <span
+                        data-i18n="enum.female">Female</span></label>
+                    <label class="radio-pill"><input type="radio" name="nc-gender" value="other"> <span
+                        data-i18n="enum.other">Other</span></label>
+                  </div>
+                  <span class="field-error" data-error="nc.gender"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.relationWithPatient">Relation with patient</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="nc-relation" value="family"> <span
+                        data-i18n="enum.family">Family</span></label>
+                    <label class="radio-pill"><input type="radio" name="nc-relation" value="friend"> <span
+                        data-i18n="enum.friend">Friend</span></label>
+                    <label class="radio-pill"><input type="radio" name="nc-relation" value="relative"> <span
+                        data-i18n="enum.relative">Relative</span></label>
+                    <label class="radio-pill"><input type="radio" name="nc-relation" value="other"> <span
+                        data-i18n="enum.other">Other</span></label>
+                  </div>
+                  <input type="text" id="nc-relation-other" placeholder="Specify relation"
+                    style="margin-top: var(--space-sm); display:none;">
+                  <span class="field-error" data-error="nc.relation"></span>
+                </div>
+                <div class="field">
+                  <label for="nc-email">Email address <span class="optional">(optional)</span></label>
+                  <input type="email" id="nc-email">
+                  <span class="field-error" data-error="nc.email"></span>
+                </div>
+                <div class="field">
+                  <label for="nc-hours" data-i18n="reg.hoursAvailable">Hours available with patient in 24h
+                    (1&ndash;24)</label>
+                  <input type="number" id="nc-hours" min="1" max="24" step="0.5">
+                  <span class="field-error" data-error="nc.availability_hours"></span>
+                </div>
+                <div class="field field--full">
+                  <label data-i18n="reg.caretakerAddress">Caretaker's address</label>
+                  <div class="radio-group" style="margin-bottom: var(--space-sm);">
+                    <label class="radio-pill"><input type="radio" name="nc-address-same" value="same" checked> <span
+                        data-i18n="reg.sameAsPatient">Same as patient</span></label>
+                    <label class="radio-pill"><input type="radio" name="nc-address-same" value="different"> <span
+                        data-i18n="reg.differentLocation">Different location</span></label>
+                  </div>
+                  <textarea id="nc-address" style="display:none;"></textarea>
+                </div>
+                <div class="field field--full">
+                  <label>Is the patient currently under professional observation?</label>
+                  <div class="radio-group">
+                    <label class="radio-pill"><input type="radio" name="nc-observation" value="yes"> <span
+                        data-i18n="reg.yes">Yes</span></label>
+                    <label class="radio-pill"><input type="radio" name="nc-observation" value="no"> <span
+                        data-i18n="reg.no">No</span></label>
+                  </div>
+                  <span class="field-error" data-error="nc.under_observation"></span>
+                </div>
+                <div class="field field--full" id="nc-facility-field" style="display:none;">
+                  <label for="nc-facility">Hospital / facility location</label>
+                  <input type="text" id="nc-facility">
+                  <span class="field-error" data-error="nc.facility_location"></span>
+                </div>
+              </div>
+
+              <div class="face-capture" data-face-capture="new-caretaker">
+                <div class="face-capture__frame">
+                  <video autoplay playsinline muted></video>
+                  <canvas hidden></canvas>
+                  <div class="scan-ring" aria-hidden="true"></div>
+                </div>
+                <p class="face-capture__status">Starting camera&hellip;</p>
+                <button type="button" class="btn btn--primary btn-scan" data-scan="new-caretaker">
+                  <i class="ti ti-scan" aria-hidden="true"></i> Scan new caretaker's face
+                </button>
+                <span class="field-error" data-error="nc_face"></span>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn--ghost" id="cancel-change-caretaker">Cancel</button>
+                <button type="submit" class="btn btn--primary"><i class="ti ti-check" aria-hidden="true"></i> Save new
+                  caretaker</button>
+              </div>
+              <p class="submit-error" id="change-caretaker-error"></p>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Task reminder toast -- lives outside the view containers so it stays
+     visible (and alarms keep firing) even if the person navigates to
+     Profile while a reminder/alarm is active. -->
+  <div class="task-reminder-toast" id="task-reminder-toast">
+    <div class="task-reminder-toast__head">
+      <i class="ti ti-bell-ringing" aria-hidden="true"></i>
+      <strong id="task-reminder-toast-title">Task reminder</strong>
+    </div>
+    <p id="task-reminder-toast-msg">&mdash;</p>
+    <div class="form-actions" style="margin:0;">
+      <button type="button" class="btn btn--ghost" id="task-reminder-dismiss"
+        style="flex:1; justify-content:center;">Dismiss</button>
+      <button type="button" class="btn btn--primary" id="task-reminder-confirm"
+        style="flex:1; justify-content:center;">Confirm done</button>
+    </div>
+  </div>
+
+  <!-- Quiz & Games modal -->
+  <div class="modal-overlay" id="quiz-modal">
+    <div class="modal-panel">
+      <button type="button" class="modal-close" id="quiz-modal-close" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+      <h2 data-i18n="quiz.modalTitle">Quiz &amp; Games</h2>
+      <p class="sub" data-i18n="quiz.modalSubtitle">A fresh set of questions every day &mdash; answer to earn points.
+      </p>
+
+      <div
+        style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-sm); margin-bottom: var(--space-md);">
+        <div class="quiz-tabs" style="margin-bottom:0;">
+          <button type="button" class="quiz-tab is-active" data-quiz-tab="daily" data-i18n="quiz.tabDaily">Today's
+            quiz</button>
+          <button type="button" class="quiz-tab" data-quiz-tab="weekly" data-i18n="quiz.tabGame">Today's game</button>
+        </div>
+        <div style="display:flex; gap:var(--space-xs);">
+          <button type="button" class="icon-btn" id="quiz-history-btn">
+            <i class="ti ti-calendar-stats" aria-hidden="true"></i> <span data-i18n="quiz.historyBtn">History</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="quiz-progress-dots" id="quiz-progress-dots"></div>
+
+      <p class="face-capture__status" id="quiz-status" style="text-align:left;"></p>
+
+      <!-- Active question -->
+      <div id="quiz-question-area">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--space-sm);">
+          <div>
+            <span class="quiz-category-badge" id="quiz-category">&mdash;</span>
+            <span class="quiz-difficulty-badge" id="quiz-difficulty">&mdash;</span>
+          </div>
+          <div class="quiz-timer" id="quiz-timer">
+            <i class="ti ti-clock" aria-hidden="true"></i> <span id="quiz-timer-value">1:00</span>
+          </div>
+        </div>
+        <p class="quiz-prompt" id="quiz-prompt">&mdash;</p>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-feedback" id="quiz-feedback"></div>
+        <p class="fun-status" id="quiz-auto-advance-label" style="min-height:20px;"></p>
+      </div>
+
+      <!-- Completion summary -->
+      <div class="quiz-summary" id="quiz-summary">
+        <i class="ti ti-trophy" aria-hidden="true"></i>
+        <p class="big" id="quiz-summary-score">&mdash;</p>
+        <p id="quiz-summary-detail">&mdash;</p>
+        <button type="button" class="btn btn--primary" id="quiz-done-btn" data-i18n="quiz.doneForNow">Done for
+          now</button>
+      </div>
+
+      <!-- Today's Game: one of 7 games, rotating daily, same cadence as the quiz -->
+      <div id="weekly-games-area" style="display:none;">
+        <div id="weekly-game-active" style="display:none;">
+          <div class="weekly-game-header">
+            <span class="weekly-game-title" id="weekly-game-title">&mdash;</span>
+            <span class="quiz-difficulty-badge" id="weekly-game-difficulty"></span>
+          </div>
+          <div id="weekly-game-body"></div>
+          <div class="quiz-feedback" id="weekly-game-feedback"></div>
+          <p class="fun-status" id="weekly-game-auto-advance-label" style="min-height:20px;"></p>
+        </div>
+
+        <div class="weekly-game-summary" id="weekly-game-summary" style="display:none;">
+          <div class="weekly-game-summary__icon">&#x1F3C6;</div>
+          <p class="big" id="weekly-game-summary-score">&mdash;</p>
+          <p id="weekly-game-summary-detail">&mdash;</p>
+          <button type="button" class="btn btn--primary fun-btn" id="weekly-game-done-btn"
+            data-i18n="quiz.doneForNow">Done for now</button>
+        </div>
+      </div>
+
+      <!-- History: date-wise quiz + game completion, with catch-up for missed days -->
+      <div class="quiz-analysis" id="quiz-history">
+        <div class="panel__head">
+          <div>
+            <h3 style="font-size:17px;" data-i18n="history.title">Daily history</h3>
+            <p class="sub" data-i18n="history.subtitle">See which days you completed &mdash; and finish any you missed.
+            </p>
+          </div>
+        </div>
+        <p class="face-capture__status" id="quiz-history-status" style="text-align:left;"></p>
+        <ul class="quiz-history-list" id="quiz-history-list"></ul>
+        <div class="form-actions">
+          <button type="button" class="btn btn--ghost" id="quiz-history-back">
+            <i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="quiz.backToQuiz">Back to quiz</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Day detail: which specific questions/rounds were attempted that day -->
+      <div class="quiz-analysis" id="quiz-day-detail">
+        <div class="panel__head">
+          <div>
+            <h3 style="font-size:17px;" id="quiz-day-detail-title">&mdash;</h3>
+            <p class="sub" data-i18n="dayDetail.legend">Green = correct, red = wrong, grey = not attempted.</p>
+          </div>
+        </div>
+        <p class="face-capture__status" id="quiz-day-detail-status" style="text-align:left;"></p>
+        <p class="quiz-history-item__date" style="margin-top: var(--space-sm);" data-i18n="quiz.quizWord">Quiz</p>
+        <ul class="quiz-analysis-list" id="quiz-day-detail-quiz-list"></ul>
+        <p class="quiz-history-item__date" style="margin-top: var(--space-md);" id="quiz-day-detail-game-heading">Game
+        </p>
+        <ul class="quiz-analysis-list" id="quiz-day-detail-game-list"></ul>
+        <div class="form-actions">
+          <button type="button" class="btn btn--ghost" id="quiz-day-detail-back">
+            <i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="dayDetail.backToHistory">Back to
+              history</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emergency SOS modal -->
+  <div class="modal-overlay" id="emergency-modal">
+    <div class="modal-panel">
+      <button type="button" class="modal-close" id="emergency-modal-close" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+      <div id="emergency-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- AI assistant chat modal -->
+  <div class="modal-overlay" id="assistant-modal">
+    <div class="modal-panel">
+      <button type="button" class="modal-close" id="assistant-modal-close" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+      <h2 data-i18n="assistant.title">Ask Smriti</h2>
+      <p class="sub" data-i18n="assistant.subtitle">Ask about the app, your day, or Alzheimer's care in general.</p>
+
+      <div class="assistant-panel">
+        <div class="assistant-messages" id="assistant-messages"></div>
+        <p class="assistant-listening-label" id="assistant-listening-label" style="display:none;">
+          <i class="ti ti-microphone" aria-hidden="true"></i> <span
+            data-i18n="assistant.listening">Listening&hellip;</span>
+        </p>
+        <form class="assistant-input-row" id="assistant-form">
+          <button type="button" class="assistant-mic-btn" id="assistant-mic-btn" aria-label="Speak"
+            style="display:none;">
+            <i class="ti ti-microphone" aria-hidden="true"></i>
+          </button>
+          <input type="text" id="assistant-input" data-i18n-placeholder="assistant.inputPlaceholder"
+            placeholder="Type a question&hellip;" autocomplete="off">
+          <button type="submit" class="assistant-send-btn" id="assistant-send-btn" aria-label="Send">
+            <i class="ti ti-send" aria-hidden="true"></i>
+          </button>
+        </form>
+      </div>
+      <p class="assistant-disclaimer" data-i18n="assistant.disclaimer">Not a substitute for medical advice. For anything
+        urgent, use the SOS button or call your caretaker.</p>
+    </div>
+  </div>
+
+  <!-- Full-size image viewer for search results (Recognize a Person / Find My Things) -->
+  <div class="modal-overlay" id="image-lightbox">
+    <div class="modal-panel" style="max-width: 420px; padding: 18px; text-align:center;">
+      <button type="button" class="modal-close" id="image-lightbox-close" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+      <img id="image-lightbox-img" style="width:100%; border-radius: var(--radius-lg); display:block;" alt="">
+      <p id="image-lightbox-caption"
+        style="margin: var(--space-sm) 0 0; font-weight:600; font-family: var(--font-display); font-size: 17px;"></p>
+    </div>
+  </div>
+
+  <!-- "Know About Application" intro / guide modal -->
+  <div class="modal-overlay" id="intro-modal">
+    <div class="modal-panel">
+      <button type="button" class="modal-close" id="intro-modal-close" aria-label="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
+      <h2 data-i18n="intro.title">Know About Application</h2>
+      <p class="sub" data-i18n="intro.subtitle">Everything in Smriti, what it's for, and how to use it.</p>
+      <ul class="intro-list">
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-scan" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.recognizePerson.title">Recognize a Person</p>
+            <p class="intro-item__where" data-i18n="intro.recognizePerson.where">Dashboard, next to your progress chart
+            </p>
+            <p class="intro-item__desc" data-i18n="intro.recognizePerson.desc">Point the camera at someone and tap Scan
+              to see their name, relation to you, and any memory notes. If they're not recognized yet, you can add them
+              right there with a photo. Tap "Search people" to browse everyone you've registered, with real photos.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-clock" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.timetable.title">Today's Timetable</p>
+            <p class="intro-item__where" data-i18n="intro.timetable.where">Dashboard, Schedule section</p>
+            <p class="intro-item__desc" data-i18n="intro.timetable.desc">Your daily routine -- meals, medication,
+              bathing, and more. Each task has a start and end time, with sound reminders as it's due. Tap Confirm once
+              you've done it, and it's marked with a tick; if you miss it, it shows a cross. You can add, edit, or
+              delete tasks any time.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-calendar-event" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.events.title">Important Events</p>
+            <p class="intro-item__where" data-i18n="intro.events.where">Dashboard, beside the Timetable</p>
+            <p class="intro-item__desc" data-i18n="intro.events.desc">Add one-off appointments, birthdays, or other
+              special dates. You'll get a sound alert on the day and time you chose. Tap OK on the alert once you've
+              seen it, and the event is cleared automatically.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-puzzle" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.quizGames.title">Quiz &amp; Games</p>
+            <p class="intro-item__where" data-i18n="intro.quizGames.where">"Quiz &amp; Games" button at the top, or tap
+              your weekly score card</p>
+            <p class="intro-item__desc" data-i18n="intro.quizGames.desc">A short quiz every day, plus a different
+              mini-game each day, to keep your mind gently active. Questions get a little easier or harder depending on
+              how you're doing. Use the History button inside to see which days you completed, and catch up on any you
+              missed.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-box" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.findThings.title">Find My Things</p>
+            <p class="intro-item__where" data-i18n="intro.findThings.where">Dashboard, beside Current Location</p>
+            <p class="intro-item__desc" data-i18n="intro.findThings.desc">Photograph an item and note where you put it,
+              like "Party coat -- upper shelf of the almirah". Later, tap Search to browse everything you've saved, with
+              real photos, or search by name or location to jog your memory.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-map-pin" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.location.title">Current Location</p>
+            <p class="intro-item__where" data-i18n="intro.location.where">Dashboard</p>
+            <p class="intro-item__desc" data-i18n="intro.location.desc">Shows your real location on a live map, using
+              your device's own GPS. Tap "Refresh live location" any time to update it -- useful for your caretaker to
+              know where you are if needed.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-user-circle" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.profile.title">Profile</p>
+            <p class="intro-item__where" data-i18n="intro.profile.where">"Profile" button at the top</p>
+            <p class="intro-item__desc" data-i18n="intro.profile.desc">Your personal details, your caretaker's contact
+              info, and settings like your neighbour's phone number. Keep this up to date so the Emergency screen always
+              has the right numbers.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-phone-call" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.emergency.title">Emergency SOS</p>
+            <p class="intro-item__where" data-i18n="intro.emergency.where">Red "SOS" button, always visible in the
+              bottom-right corner</p>
+            <p class="intro-item__desc" data-i18n="intro.emergency.desc">For a real emergency. One tap shows Police,
+              Medical, Fire, your Caretaker, and Neighbour numbers, ready to call immediately, plus a way to message
+              your caretaker on WhatsApp.</p>
+          </div>
+        </li>
+        <li class="intro-item">
+          <span class="intro-item__icon"><i class="ti ti-message-circle-2" aria-hidden="true"></i></span>
+          <div>
+            <p class="intro-item__title" data-i18n="intro.askSmriti.title">Ask Smriti</p>
+            <p class="intro-item__where" data-i18n="intro.askSmriti.where">Violet "Ask Smriti" button, bottom-left
+              corner</p>
+            <p class="intro-item__desc" data-i18n="intro.askSmriti.desc">Type or speak a question -- about the app, your
+              day, or Alzheimer's care generally. It can look up your real tasks, people, and events, and can even add a
+              new task or event for you. Works in English, Hindi, or Hinglish.</p>
+          </div>
+        </li>
+      </ul>
+      <div class="form-actions">
+        <button type="button" class="btn btn--primary" id="intro-done-btn" style="width:100%; justify-content:center;"
+          data-i18n="intro.gotIt">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Smriti — built to hold on to what matters.</p>
+  </footer>
+
+  <script>
+    const SERVER_INITIAL_VIEW = "{{ initial_view }}";
+    const SERVER_LOGGED_IN = {{ 'true' if logged_in else 'false' }};
+  </script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>
