@@ -233,7 +233,6 @@ source venv/bin/activate
 Then install the dependencies:
 ```bash
 pip install -r requirements.txt
-pip install --no-deps -r requirements-facenet.txt
 ```
 (`--no-deps` is required for the second command — `facenet-pytorch` pins an outdated `numpy`
 version that conflicts with the one this project actually needs; `--no-deps` skips that, and
