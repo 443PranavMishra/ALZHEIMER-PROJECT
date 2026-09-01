@@ -181,55 +181,98 @@ alzheimer_platform/
 ├── game_data.json                Content for the daily games
 ├── supabase_schema.sql           Run once in the Supabase SQL editor — creates every table/bucket
 ├── requirements.txt              Main Python dependencies
-├── requirements-facenet.txt      facenet-pytorch, installed separately (see Setup, step 5)
-└── .env                  Template for your local .env file
+├── requirements-facenet.txt      facenet-pytorch, installed separately (see Setup, step 6)
+└── .env.example                  Template for your local .env file
 ```
 
 ---
 
 ## Setup
 
-### 1. Create a Supabase project
-Free tier is enough. Sign up at [supabase.com](https://supabase.com) and create a new project.
+> ⚠️ **A note on Step 5 below:** if you're sharing a folder containing *working* Supabase/Gemini
+> keys (not just placeholders) for others to download, be aware that anyone with that folder gets
+> full read/write access to your live database and can use up your Gemini quota. Keep that folder
+> private/judges-only rather than public, or share placeholder instructions instead of real keys.
 
-### 2. Create the database tables and storage buckets
-Open your project's **SQL Editor**, paste in the entire contents of
-[`supabase_schema.sql`](./supabase_schema.sql), and run it. Every statement uses
-`if not exists`/`on conflict do nothing`, so it's always safe to re-run later.
+**Step 1 — Download and extract the project**
+Download the project ZIP from the link provided, and extract it into a folder named
+`Alzheimer_Project`.
 
-### 3. Get your Supabase credentials
-**Project settings → API** — you need the **Project URL** and the **service_role key** (not the
-anon/public key).
+**Step 2 — Download the FaceNet model**
+Download `facenet_model.pt` from the link provided, and place it inside `Alzheimer_Project/model/`
+(create the `model` folder if it isn't already there — this file is too large to include in the
+main ZIP).
 
-### 4. Set up your environment
-```bash
-cd alzheimer_platform
-cp .env.example .env
+**Step 3 — Open the project in VS Code**
+Open the `Alzheimer_Project` folder in VS Code (`File → Open Folder…`).
+
+**Step 4 — Confirm the folder structure**
+Check everything matches the [Project Structure](#project-structure) section above — especially
+that `facenet_model.pt` is inside `model/`, and `app.py` sits at the root, not nested inside
+another folder.
+
+**Step 5 — Create your `.env` file**
+In the project's root folder (same level as `app.py`), create a new file named `.env` and paste in
+the keys from the shared folder link (see the caution above). It should look like:
 ```
-Fill in `.env`:
+SUPABASE_URL=your-supabase-project-url
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+SECRET_KEY=any-random-string
+GEMINI_API_KEY=your-gemini-key
+```
 
-| Variable | Where to get it |
-|---|---|
-| `SUPABASE_URL` | Step 3 |
-| `SUPABASE_SERVICE_ROLE_KEY` | Step 3 |
-| `SECRET_KEY` | Any random string |
-| `GEMINI_API_KEY` | Optional — free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
-
-If `GEMINI_API_KEY` is left blank, everything else still works — the AI assistant just shows a
-clear "not available" message.
-
-### 5. Install dependencies and run
+**Step 6 — Open a terminal in VS Code and set up your environment**
 ```bash
-python3 -m venv venv && source venv/bin/activate
+python -m venv venv
+```
+Activate it — on Windows:
+```bash
+venv\Scripts\activate
+```
+On Mac/Linux:
+```bash
+source venv/bin/activate
+```
+Then install the dependencies:
+```bash
 pip install -r requirements.txt
 pip install --no-deps -r requirements-facenet.txt
+```
+(`--no-deps` is required for the second command — `facenet-pytorch` pins an outdated `numpy`
+version that conflicts with the one this project actually needs; `--no-deps` skips that, and
+everything it needs at runtime is already covered by `requirements.txt`.)
+
+**Step 7 — Run the app**
+```bash
 python app.py
 ```
-`facenet-pytorch` is installed separately with `--no-deps` because it pins an outdated `numpy`
-version that conflicts with the one this project actually needs — everything it needs at runtime
-is already covered by `requirements.txt`.
+Leave this terminal running — closing it stops the server.
 
-Open **http://127.0.0.1:5000**.
+**Step 8 — Open it in your browser**
+Go to:
+```
+http://127.0.0.1:5000
+```
+
+If the page doesn't load, check the terminal for errors — the most common cause is Step 5 (missing
+or incorrect `.env` values) or Step 2 (model file not placed correctly).
+
+<details>
+<summary><strong>Want to run your own independent copy instead of the shared demo keys?</strong></summary>
+
+If you'd rather use your own Supabase project (recommended for anything beyond a quick demo):
+
+1. Sign up at [supabase.com](https://supabase.com) and create a new project (free tier is enough)
+2. Open the **SQL Editor** in your project, paste in the entire contents of
+   [`supabase_schema.sql`](./supabase_schema.sql), and run it — this creates every table and
+   storage bucket the app needs
+3. Go to **Project settings → API** and copy your **Project URL** and **service_role key** (not
+   the anon/public key) into your own `.env` in place of the shared ones
+4. Optionally get your own free Gemini key at
+   [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — if left blank, everything
+   else still works, the AI assistant just shows a clear "not available" message
+
+</details>
 
 ---
 
