@@ -182,7 +182,7 @@ alzheimer_platform/
 ├── supabase_schema.sql           Run once in the Supabase SQL editor — creates every table/bucket
 ├── requirements.txt              Main Python dependencies
 ├── requirements-facenet.txt      facenet-pytorch, installed separately (see Setup, step 5)
-└── .env.example                  Template for your local .env file
+└── .env                  Template for your local .env file
 ```
 
 ---
