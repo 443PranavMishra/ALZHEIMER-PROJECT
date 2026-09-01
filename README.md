@@ -241,11 +241,6 @@ accommodate, and premium hosting was outside our budget as a student project. Ra
 down the real AI model just to fit a free tier, we kept the full working implementation. A demo
 video is available — see the link at the top of this README.
 
-If you'd like to self-host: platforms that run persistent processes (not serverless functions)
-are the right fit for this dependency footprint — **Render**, **Railway**, or **Fly.io** are
-reasonable starting points, though all require a paid tier once you factor in the memory needed
-for PyTorch + the model file.
-
 ---
 
 ## Future Roadmap
