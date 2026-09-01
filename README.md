@@ -195,7 +195,7 @@ alzheimer_platform/
 > private/judges-only rather than public, or share placeholder instructions instead of real keys.
 
 **Step 1 — Download and extract the project**
-Download the project ZIP from the link provided, and extract it into a folder named
+Download the project ZIP from the github repo, and extract it into a folder named
 `Alzheimer_Project`.
 
 **Step 2 — Download the FaceNet model**
