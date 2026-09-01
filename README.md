@@ -14,6 +14,8 @@ a Gemini-powered AI assistant. Plain HTML/CSS/JS on the frontend — no build st
 
 VIDEO LINK : https://youtu.be/5LMrTFpUo48
 
+MODEL LINK : https://www.kaggle.com/models/pranavmishra443/facenet-model
+
 ---
 
 ## Table of Contents
